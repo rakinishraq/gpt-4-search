@@ -20,11 +20,11 @@ import requests
 import re
 import logging
 import ssl
-import readline
+#import readline
 from typing import Optional
 
 load_dotenv()
-
+MARKDOWN_MODS=True
 
 # Utils
 
@@ -97,6 +97,8 @@ def search(queries: str) -> str:
             i = len(links)
             summary += f'[{i}] {result["title"]}\n{result.get("snippet", "")}\n'
             links.append({"link": result["link"], "query": query})
+            if MARKDOWN_MODS:
+                links[-1]["title"] = result["title"]
     logging.info(links)
     return summary
 
@@ -179,6 +181,7 @@ def call_llm(streaming: bool = False) -> str:
     total_cost = (0.03 * prompt_tokens + 0.06 * complete_tokens) / 1000
     logging.info(
         f"cost: ${total_cost}, prompt_tokens: {prompt_tokens}, complete_tokens: {complete_tokens}")
+    if MARKDOWN_MODS: print('')
     print('')
     return resp
     
@@ -227,6 +230,9 @@ def show_references():
     global references
     output = ""
     for id in references:
+        if MARKDOWN_MODS:
+            output += f"[{id}]: [{links[id]['title']}]({links[id]['link']})\n"
+            continue
         output += f"[{id}]: {links[id]['link']}\n"
     print(output)
     references = []
@@ -284,6 +290,8 @@ if __name__ == "__main__":
         logging.info(f"user-input: {user_input}")
         try:
             run(user_input)
+            if MARKDOWN_MODS and references:
+                print("\n**References:**")
             show_references()
         except Exception as e:
             print("Error:", e)

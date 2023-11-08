@@ -196,3 +196,12 @@ Cons:
 2023-04-08 00:21:12,977 INFO:cost: $0.0, total_tokens: 0
 2023-04-08 00:21:12,978 INFO:no function call, so it is the answer
 ````
+
+## Modifications
+
+All modifications of the `gpt-4-search.py` file are written as easily removable conditional blocks and can be found by searching "MARKDOWN_MODS".
+- Adds the MARKDOWN_MODS conditional (avoided os.getenv import)
+- Adds titles to the stored link data
+- Adds a newline after each output for readability
+- Changes the link output to their titles with masked links
+- Adds a bold heading before the references are printed
