@@ -205,4 +205,5 @@ All modifications of the `gpt-4-search.py` file are written as easily removable 
 - Added a newline after each output for readability
 - Changed the link output to their titles with masked links
 - Added a bold heading before the references are printed
+- Changed show_references to return output
 - Removed the readline import for compatibility

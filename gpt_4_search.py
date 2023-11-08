@@ -235,6 +235,7 @@ def show_references():
         output += f"[{id}]: {links[id]['link']}\n"
     print(output)
     references = []
+    if MARKDOWN_MODS: return output
 
 
 def run(query: str) -> str:
