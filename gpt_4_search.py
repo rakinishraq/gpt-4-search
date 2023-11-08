@@ -20,7 +20,6 @@ import requests
 import re
 import logging
 import ssl
-#import readline
 from typing import Optional
 
 load_dotenv()
@@ -231,7 +230,7 @@ def show_references():
     output = ""
     for id in references:
         if MARKDOWN_MODS:
-            output += f"[{id}]: [{links[id]['title']}]({links[id]['link']})\n"
+            output += f"[{id}]: [{links[id]['title']}](<{links[id]['link']}>)\n"
             continue
         output += f"[{id}]: {links[id]['link']}\n"
     print(output)

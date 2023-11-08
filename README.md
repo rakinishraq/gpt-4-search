@@ -200,8 +200,9 @@ Cons:
 ## Modifications
 
 All modifications of the `gpt-4-search.py` file are written as easily removable conditional blocks and can be found by searching "MARKDOWN_MODS".
-- Adds the MARKDOWN_MODS conditional (avoided os.getenv import)
-- Adds titles to the stored link data
-- Adds a newline after each output for readability
-- Changes the link output to their titles with masked links
-- Adds a bold heading before the references are printed
+- Added the MARKDOWN_MODS conditional (avoided os.getenv import)
+- Added titles to the stored link data
+- Added a newline after each output for readability
+- Changed the link output to their titles with masked links
+- Added a bold heading before the references are printed
+- Removed the readline import for compatibility
