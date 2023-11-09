@@ -23,8 +23,8 @@ import ssl
 from typing import Optional
 
 load_dotenv()
-MARKDOWN_MODS = [] # ["system prompt", "gpt-x"]
-MODEL = MARKDOWN_MODS[1] if MARKDOWN_MODS else "gpt-4"
+FEVER = [] # ["system prompt", "gpt-x"]
+MODEL = FEVER[1] if FEVER else "gpt-4"
 
 # Utils
 
@@ -97,7 +97,7 @@ def search(queries: str) -> str:
             i = len(links)
             summary += f'[{i}] {result["title"]}\n{result.get("snippet", "")}\n'
             links.append({"link": result["link"], "query": query})
-            if MARKDOWN_MODS:
+            if FEVER:
                 links[-1]["title"] = result["title"]
     logging.info(links)
     return summary
@@ -181,7 +181,7 @@ def call_llm(streaming: bool = False) -> str:
     total_cost = (0.03 * prompt_tokens + 0.06 * complete_tokens) / 1000
     logging.info(
         f"cost: ${total_cost}, prompt_tokens: {prompt_tokens}, complete_tokens: {complete_tokens}")
-    if MARKDOWN_MODS: print('')
+    if FEVER: print('')
     print('')
     return resp
     
@@ -191,7 +191,7 @@ def call_llm(streaming: bool = False) -> str:
 
 def instruction_prompt(query: str, tools: list[dict], context: Optional[str] = None) -> str:
     prompt = "You are an helpful and kind assistant to answer questions that can use tools to interact with real world and get access to the latest information. You can call one of the following functions:\n"
-    if MARKDOWN_MODS: prompt = MARKDOWN_MODS[0] + prompt
+    if FEVER: prompt = FEVER[0] + ' ' + prompt
 
     for tool in tools:
         prompt += f'- {tool["name"]}{tool["args"]} {tool["description"]}\n'
@@ -231,13 +231,13 @@ def show_references():
     global references
     output = ""
     for id in references:
-        if MARKDOWN_MODS:
+        if FEVER:
             output += f"[{id}]: [{links[id]['title']}](<{links[id]['link']}>)\n"
             continue
         output += f"[{id}]: {links[id]['link']}\n"
     print(output)
     references = []
-    if MARKDOWN_MODS: return output
+    if FEVER: return output
 
 
 def run(query: str) -> str:
@@ -292,7 +292,7 @@ if __name__ == "__main__":
         logging.info(f"user-input: {user_input}")
         try:
             run(user_input)
-            if MARKDOWN_MODS and references:
+            if FEVER and references:
                 print("\n**References:**")
             show_references()
         except Exception as e:

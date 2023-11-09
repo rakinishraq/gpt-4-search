@@ -199,8 +199,8 @@ Cons:
 
 ## Modifications
 
-Modifications in `gpt-4-search.py` are written as easily removable conditional blocks (search "MARKDOWN_MODS"):
-- Added the MARKDOWN_MODS[sys prompt, model] (leave [] to disable changes)
+Modifications in `gpt-4-search.py` are written as easily removable conditional blocks (search "FEVER"):
+- Added the FEVER[sys prompt, model] (leave [] to disable changes)
 - Added titles to the stored link data
 - Added a newline after each output for readability
 - Changed the link output to their titles with masked links
