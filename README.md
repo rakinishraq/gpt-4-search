@@ -8,20 +8,15 @@ This is a command-line GPT-4 REPL that utilizes Google to search for the latest 
 <video src='https://user-images.githubusercontent.com/9637710/230764961-ea90e864-e01d-4d41-96e3-1cacf44e5e14.mp4'></video>
 <video src='https://user-images.githubusercontent.com/9637710/230764959-dccc567e-0639-4b71-92c9-9fa35d4eb8ee.mp4'></video>
 
+
 ## Install
 
 1. Get a OpenAI API key from [here](https://platform.openai.com/account/api-keys), make sure you have access to GPT-4 API endpoint.
 2. Get a Google Serach API key according to the [Instruction](https://stackoverflow.com/questions/37083058/programmatically-searching-google-in-python-using-custom-search).
 3. Clone the repo.
 4. Copy `.env.template` to `.env` and then fill in the API keys.
-5. Install the dependencies.
-```
-poetry install
-```
-6. Run the script.
-```
-poetry run python gpt-4-search.py
-```
+5. Install the dependencies with `pip install requirements.txt` (or `poetry install` with [Poetry](https://python-poetry.org/docs/))
+6. Run the script with `python gpt_4_search.py` (or `poetry run python gpt_4_search.py`)
 
 ## How it works
 
@@ -31,7 +26,7 @@ The log file from the demo reveals the mechanics behind the scenes:
 
 ````markdown
 2023-04-08 00:20:12,662 INFO:user-input: compare the pros and cons for golang and rust
-2023-04-08 00:20:12,684 INFO:gpt-context: [HumanMessage(content="You are an helpful and kind assistant to answer questions that can use tools to interact with real world and get access to the latest information. You can call one of the following functions:\n- SEARCH(query: string) searches the web, and returns the top snippets, it'll be better if the query string is in english\n- SUMMARIZE(snippet_ids: uint[]) click into the search result, useful when you want to investigate the detail of the search result\n- PYTHON(code: string) evaluates the code in a python interpreter, wrap code in triple quotes\nIn each response, you must start with a function call. Don't explain why you use a tool. If you cannot figure out the answer, you say ’I don’t know’. When you are generating answers according to the search result, link your answers to the snippet id and use the same language as the questioner\nQ:compare the pros and cons for golang and rust", additional_kwargs={})]
+2023-04-08 00:20:12,684 INFO:gpt-context: [HumanMessage(content="You are an helpful and kind assistant to answer questions that can use tools to interact with real world and get access to the latest information. You can call one of the following functions:\n- SEARCH(query: string) searches the web, and returns the top snippets, it'll be better if the query string is in english\n- SUMMARIZE(snippet_ids: uint[]) click into the search result, useful when you want to investigate the detail of the search result\n- PYTHON(code: string) evaluates the code in a python interpreter, wrap code in triple quotes\nIn each response, you must start with a function call. Don't explain why you use a tool. If you cannot figure out the answer, you say ’I don’t know’. When you are generating answers according to the search result, link your answers to the snippet id and use the same language as the questioner\nQ:compare the pros and cons for golang and rust", additional_kwargcids={})]
 2023-04-08 00:20:16,021 INFO:gpt-response: SEARCH("compare the pros and cons of golang and rust")
 2023-04-08 00:20:16,021 INFO:cost: $0.0, total_tokens: 0
 2023-04-08 00:20:16,121 INFO:file_cache is only supported with oauth2client<4.0.0
@@ -198,6 +193,12 @@ Cons:
 ````
 
 ## Modifications
+
+- Added standard Python .gitignore
+- Added requirements.txt equivalent of Poetry files
+
+- Added standard Python .gitignore
+- Added requirements.txt equivalent of Poetry files
 
 Modifications in `gpt-4-search.py` are written as easily removable conditional blocks (search "FEVER"):
 - Added the FEVER[sys prompt, model] (leave [] to disable changes)
