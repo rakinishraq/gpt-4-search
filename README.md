@@ -199,11 +199,15 @@ Cons:
 
 ## Modifications
 
-All modifications of the `gpt-4-search.py` file are written as easily removable conditional blocks and can be found by searching "MARKDOWN_MODS".
-- Added the MARKDOWN_MODS conditional (avoided os.getenv import)
+Modifications in `gpt-4-search.py` are written as easily removable conditional blocks (search "MARKDOWN_MODS"):
+- Added the MARKDOWN_MODS[sys prompt, model] (leave [] to disable changes)
 - Added titles to the stored link data
 - Added a newline after each output for readability
 - Changed the link output to their titles with masked links
 - Added a bold heading before the references are printed
 - Changed show_references to return output
+- Prepended user-provided system prompt
+
+These are the only "destructive" changes which should probably be merged upstream:
+- Replaced model with MODEL variable
 - Removed the readline import for compatibility

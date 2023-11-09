@@ -23,13 +23,14 @@ import ssl
 from typing import Optional
 
 load_dotenv()
-MARKDOWN_MODS=True
+MARKDOWN_MODS = [] # ["system prompt", "gpt-x"]
+MODEL = MARKDOWN_MODS[1] if MARKDOWN_MODS else "gpt-4"
 
 # Utils
 
 
 def count_tokens(text: str) -> int:
-    encoding = tiktoken.encoding_for_model("gpt-4")
+    encoding = tiktoken.encoding_for_model(MODEL)
     tokens = encoding.encode(text)
     return len(tokens)
 
@@ -168,10 +169,10 @@ def messages_tokens() -> int:
 
 def call_llm(streaming: bool = False) -> str:
     if streaming:
-        chat = ChatOpenAI(model_name="gpt-4", streaming=True, callback_manager=CallbackManager(
+        chat = ChatOpenAI(model_name=MODEL, streaming=True, callback_manager=CallbackManager(
             [StreamingStdOutCallbackHandler()]), verbose=True, temperature=0)
     else:
-        chat = ChatOpenAI(model_name="gpt-4", verbose=True, temperature=0)
+        chat = ChatOpenAI(model_name=MODEL, verbose=True, temperature=0)
     logging.info(f"gpt-context: {messages}")
     resp = chat.generate([(map(lambda msg: msg[1], messages))]).generations[0][0].text
     logging.info(f"gpt-response: {resp}")
@@ -190,6 +191,7 @@ def call_llm(streaming: bool = False) -> str:
 
 def instruction_prompt(query: str, tools: list[dict], context: Optional[str] = None) -> str:
     prompt = "You are an helpful and kind assistant to answer questions that can use tools to interact with real world and get access to the latest information. You can call one of the following functions:\n"
+    if MARKDOWN_MODS: prompt = MARKDOWN_MODS[0] + prompt
 
     for tool in tools:
         prompt += f'- {tool["name"]}{tool["args"]} {tool["description"]}\n'
