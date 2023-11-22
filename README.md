@@ -197,9 +197,6 @@ Cons:
 - Added standard Python .gitignore
 - Added requirements.txt equivalent of Poetry files
 
-- Added standard Python .gitignore
-- Added requirements.txt equivalent of Poetry files
-
 Modifications in `gpt-4-search.py` are written as easily removable conditional blocks (search "FEVER"):
 - Added the FEVER[sys prompt, model] (leave [] to disable changes)
 - Added titles to the stored link data
@@ -208,6 +205,7 @@ Modifications in `gpt-4-search.py` are written as easily removable conditional b
 - Added a bold heading before the references are printed
 - Changed show_references to return output
 - Prepended user-provided system prompt
+- Replace "I don't know" with "FALLBACK"
 
 These are the only "destructive" changes which should probably be merged upstream:
 - Replaced model with MODEL variable

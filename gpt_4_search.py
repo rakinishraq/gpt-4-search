@@ -197,6 +197,7 @@ def instruction_prompt(query: str, tools: list[dict], context: Optional[str] = N
         prompt += f'- {tool["name"]}{tool["args"]} {tool["description"]}\n'
 
     prompt += "In each response, you must start with a function call like `SEARCH(\"something\")` or `PYTHON(\"\"\"1+1\"\"\")`. Don't explain why you use a tool. If you cannot figure out the answer, you say ’I don’t know’. When you are generating answers according to the search result, link your answers to the snippet id like `[1]`, and use the same language as the questioner\n"
+    if FEVER: prompt = prompt.replace("’I don’t know’", "’FALLBACK’ but don't say this unless if necessary")
 
     if context:
         prompt += "Context from the previous assistant:\n```\n"
