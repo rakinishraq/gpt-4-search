@@ -1,0 +1,1 @@
+& "$PSScriptRoot/.venv/Scripts/python.exe" "$PSScriptRoot/gpt_4_search.py" $args

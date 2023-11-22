@@ -9,7 +9,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.text_splitter import TokenTextSplitter
 from langchain.utilities import GoogleSearchAPIWrapper
 from langchain.callbacks import get_openai_callback
-from langchain.callbacks.base import CallbackManager
+from langchain.callbacks.base import BaseCallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from dotenv import load_dotenv
 from html2text import HTML2Text
@@ -169,7 +169,7 @@ def messages_tokens() -> int:
 
 def call_llm(streaming: bool = False) -> str:
     if streaming:
-        chat = ChatOpenAI(model_name=MODEL, streaming=True, callback_manager=CallbackManager(
+        chat = ChatOpenAI(model_name=MODEL, streaming=True, callback_manager=BaseCallbackManager(
             [StreamingStdOutCallbackHandler()]), verbose=True, temperature=0)
     else:
         chat = ChatOpenAI(model_name=MODEL, verbose=True, temperature=0)
