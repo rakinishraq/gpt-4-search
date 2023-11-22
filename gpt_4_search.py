@@ -9,7 +9,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.text_splitter import TokenTextSplitter
 from langchain.utilities import GoogleSearchAPIWrapper
 from langchain.callbacks import get_openai_callback
-from langchain.callbacks.base import BaseCallbackManager
+from langchain.callbacks.base import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from dotenv import load_dotenv
 from html2text import HTML2Text
@@ -24,7 +24,7 @@ from typing import Optional
 
 load_dotenv()
 FEVER = [] # ["system prompt", "gpt-x"]
-MODEL = FEVER[1] if FEVER else "gpt-4"
+MODEL = FEVER[1] if len(FEVER) > 1 else "gpt-4"
 
 # Utils
 
@@ -169,7 +169,7 @@ def messages_tokens() -> int:
 
 def call_llm(streaming: bool = False) -> str:
     if streaming:
-        chat = ChatOpenAI(model_name=MODEL, streaming=True, callback_manager=BaseCallbackManager(
+        chat = ChatOpenAI(model_name=MODEL, streaming=True, callback_manager=CallbackManager(
             [StreamingStdOutCallbackHandler()]), verbose=True, temperature=0)
     else:
         chat = ChatOpenAI(model_name=MODEL, verbose=True, temperature=0)
@@ -191,7 +191,7 @@ def call_llm(streaming: bool = False) -> str:
 
 def instruction_prompt(query: str, tools: list[dict], context: Optional[str] = None) -> str:
     prompt = "You are an helpful and kind assistant to answer questions that can use tools to interact with real world and get access to the latest information. You can call one of the following functions:\n"
-    if FEVER: prompt = FEVER[0] + ' ' + prompt
+    if len(FEVER) > 1: prompt = FEVER[0] + ' ' + prompt
 
     for tool in tools:
         prompt += f'- {tool["name"]}{tool["args"]} {tool["description"]}\n'
